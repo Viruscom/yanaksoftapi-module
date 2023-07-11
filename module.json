@@ -1,0 +1,13 @@
+{
+    "name": "YanakSoftApi",
+    "alias": "yanaksoftapi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\YanakSoftApi\\Providers\\YanakSoftApiServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

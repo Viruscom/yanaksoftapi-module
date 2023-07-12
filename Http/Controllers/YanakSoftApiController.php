@@ -29,4 +29,12 @@ class YanakSoftApiController extends Controller
 
         dd($allStocks);
     }
+
+    public function getAllCustomers()
+    {
+        $service       = new ApiService(new ConnectionService());
+        $allCategories = $service->getAllCustomers();
+
+        dd($allCategories);
+    }
 }

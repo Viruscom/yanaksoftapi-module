@@ -15,4 +15,5 @@ Route::prefix('system/apis/yanaksoftapi')->group(function () {
     Route::get('/getToken', 'YanakSoftApiController@getToken');
     Route::get('/getAllStocks', 'YanakSoftApiController@getAllStocks');
     Route::get('/getAllCategories', 'YanakSoftApiController@getAllCategories');
+    Route::get('/getAllCustomers', 'YanakSoftApiController@getAllCustomers');
 });

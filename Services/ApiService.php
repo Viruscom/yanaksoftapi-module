@@ -73,4 +73,22 @@ class ApiService
 
         return $result['items'];
     }
+
+
+    public function getAllCustomers()
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callGetAllCustomers($yanakSoftApiSettings->bearer_token);
+        $result  = json_decode($apiCall, true);
+
+        if ($result['error'] != '') {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_GET_ALL_CUSTOMERS]);
+        }
+
+        return $result['list_selbuy'];
+    }
 }

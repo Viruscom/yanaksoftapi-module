@@ -91,4 +91,18 @@ class ApiService
 
         return $result['list_selbuy'];
     }
+
+    public function addStockToCart($data)
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callAddStockToCart($yanakSoftApiSettings->bearer_token);
+        $result  = json_decode($apiCall, true);
+
+        //TODO: Trqbva da se dovarshi
+        return $result;
+    }
 }

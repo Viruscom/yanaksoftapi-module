@@ -16,6 +16,7 @@ class ConnectionService
     protected string  $getStocksLiteUrl              = "e-shop/api/getstockslite";
     protected string  $getAllCategoriesUrl           = "e-shop/api/groups";
     protected string  $getAllCustomersUrl            = "e-shop/api/customer";
+    protected string  $addToCartApiUrl               = "e-shop/api/cart_b";
     public function callGetAllStocks($token): string
     {
         $attributes = [
@@ -84,5 +85,40 @@ class ConnectionService
         $response = $this->client()->get($this->MAIN_URL . $this->getAllCustomersUrl, $attributes);
 
         return $response->getBody()->getContents();
+    }
+
+    public function callAddStockToCart($data): string
+    {
+        $attributes = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json'    => $data,
+            'verify'  => false
+        ];
+
+        $response = $this->client()->post($this->MAIN_URL . $this->addToCartApiUrl, $attributes);
+
+        return $response->getBody()->getContents();
+    }
+    
+    public function callEditStockInCart()
+    {
+
+    }
+
+    public function callDeleteStockFromCart()
+    {
+
+    }
+
+    public function callShowStocksInCart()
+    {
+
+    }
+
+    public function callMakeOrderToYanakSoft()
+    {
+
     }
 }

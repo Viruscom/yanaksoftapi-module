@@ -17,6 +17,9 @@ class ConnectionService
     protected string  $getAllCategoriesUrl           = "e-shop/api/groups";
     protected string  $getAllCustomersUrl            = "e-shop/api/customer";
     protected string  $addToCartApiUrl               = "e-shop/api/cart_b";
+    protected string  $editStockFromCartApiUrl       = "e-shop/api/cart";
+    protected string  $deleteStockFromCartApiUrl     = "e-shop/api/cart";
+    protected string  $showStocksInCartApiUrl        = "e-shop/api/cart";
     public function callGetAllStocks($token): string
     {
         $attributes = [
@@ -101,24 +104,67 @@ class ConnectionService
 
         return $response->getBody()->getContents();
     }
-    
-    public function callEditStockInCart()
-    {
 
+    public function callShowStocksInCart($token, $data): string
+    {
+        $attributes = [
+            'headers' => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'json'    => $data,
+            'verify'  => false
+        ];
+
+        $response = $this->client()->get($this->MAIN_URL . $this->showStocksInCartApiUrl, $attributes);
+
+        return $response->getBody()->getContents();
     }
 
-    public function callDeleteStockFromCart()
+    public function callMakeOrderToYanakSoft($token, $data)
     {
+        $attributes = [
+            'headers' => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'json'    => $data,
+            'verify'  => false
+        ];
 
+        $response = $this->client()->post($this->MAIN_URL . $this->showStocksInCartApiUrl, $attributes);
+
+        return $response->getBody()->getContents();
+    }
+    public function callEditStockFromCart($token, $data): string
+    {
+        $attributes = [
+            'headers' => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'json'    => $data,
+            'verify'  => false
+        ];
+
+        $response = $this->client()->put($this->MAIN_URL . $this->editStockFromCartApiUrl, $attributes);
+
+        return $response->getBody()->getContents();
     }
 
-    public function callShowStocksInCart()
+    public function callDeleteStockFromCart($token, $data): string
     {
+        $attributes = [
+            'headers' => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'json'    => $data,
+            'verify'  => false
+        ];
 
-    }
+        $response = $this->client()->delete($this->MAIN_URL . $this->deleteStockFromCartApiUrl, $attributes);
 
-    public function callMakeOrderToYanakSoft()
-    {
-
+        return $response->getBody()->getContents();
     }
 }

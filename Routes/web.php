@@ -17,4 +17,9 @@ Route::prefix('system/apis/yanaksoftapi')->group(function () {
     Route::get('/getAllCategories', 'YanakSoftApiController@getAllCategories');
     Route::get('/getAllCustomers', 'YanakSoftApiController@getAllCustomers');
     Route::get('/addStockToCart', 'YanakSoftApiController@addStockToCart');
+    Route::get('/editStockFromCart', 'YanakSoftApiController@editStockFromCart');
+    Route::get('/deleteStockFromCart', 'YanakSoftApiController@deleteStockFromCart');
+    Route::get('/showStocksInCart', 'YanakSoftApiController@showStocksInCart');
+    Route::get('/showStocksInCart', 'YanakSoftApiController@showStocksInCart');
+    Route::get('/makeOrderToYanakSoft', 'YanakSoftApiController@makeOrderToYanakSoft');
 });

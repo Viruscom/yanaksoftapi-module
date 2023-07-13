@@ -52,7 +52,65 @@ class YanakSoftApiController extends Controller
             'price'       => '5.2524'
         ];
 
-        $service       = new ApiService(new ConnectionService());
-        $allCategories = $service->addStockToCart($data);
+        $service = new ApiService(new ConnectionService());
+        $stock   = $service->addStockToCart($data);
+    }
+
+    public function editStockFromCart()
+    {
+        $data = [
+            'id'       => '60', //"kasbuf_id" от cart GET
+            'quantity' => '5',
+        ];
+
+        $service = new ApiService(new ConnectionService());
+        $stock   = $service->editStockFromCart($data);
+        //TODO: da se zakachi
+    }
+
+    public function deleteStockFromCart()
+    {
+        $data = [
+            'id' => '60', //"kasbuf_id" от cart GET
+        ];
+
+        $service = new ApiService(new ConnectionService());
+        $stock   = $service->deleteStockFromCart($data);
+        //TODO: da se zakachi
+    }
+
+    public function showStocksInCart()
+    {
+        $data = [
+            'sessionID'  => '284e6c82-ccb6-4fd3-ba98-ae4ca36fb5ba', //"kasbuf_id" от cart GET
+            'customerID' => '0'
+        ];
+
+        $service = new ApiService(new ConnectionService());
+        $stock   = $service->showStocksInCart($data);
+        //TODO: da se zakachi
+    }
+
+    public function makeOrderToYanakSoft()
+    {
+        $data = [
+            'sessionID'         => '284e6c82-ccb6-4fd3-ba98-ae4ca36fb5ba', //"kasbuf_id" от cart GET
+            'ip'                => '127.0.0.1', // ip от където се прави заявката
+            'warehouseID'       => '0',
+            'email'             => 'test_client_mail@mail.com',
+            'customerID'        => '0',
+            'total'             => '0', //Тотал на сметката
+            'paymentMethod'     => '0', //Начин на плащане който се активира когато се изпълнява поръчка в допълнителен модул в основната програма, 0 в Брой, 1 по Банка, 2 с Карта ,3 Разнос
+            'order_ex_doc_type' => '0', //Тип документ който се активира когато се изпълнява поръчка в допълнителен модул в основната програма, 20 Разписка , 21 Фактура
+            'orderInfo'         => '',
+            'FiscalDevice'      => '',
+            'FiscalDeviceID'    => '',
+            'IPAdress'          => '',// Попълва се ако клиента ползва СУПТО и се изисква УНП при създаването на документа
+            'port'              => '',// Попълва се ако клиента ползва СУПТО и се изисква УНП при създаването на документа
+        ];
+
+        $service = new ApiService(new ConnectionService());
+        $stock   = $service->makeOrderToYanakSoft($data);
+        //TODO: da se zakachi
     }
 }

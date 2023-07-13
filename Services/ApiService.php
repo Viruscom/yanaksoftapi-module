@@ -105,4 +105,58 @@ class ApiService
         //TODO: Trqbva da se dovarshi
         return $result;
     }
+    public function editStockFromCart(array $data)
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callEditStockFromCart($yanakSoftApiSettings->bearer_token, $data);
+        $result  = json_decode($apiCall, true);
+
+        //TODO: Trqbva da se dovarshi
+        return $result;
+    }
+    public function deleteStockFromCart(array $data)
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callDeleteStockFromCart($yanakSoftApiSettings->bearer_token, $data);
+        $result  = json_decode($apiCall, true);
+
+        //TODO: Trqbva da se dovarshi
+        return $result;
+    }
+
+    public function showStocksInCart(array $data)
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callShowStocksInCart($yanakSoftApiSettings->bearer_token, $data);
+        $result  = json_decode($apiCall, true);
+
+        //TODO: Trqbva da se dovarshi
+        return $result;
+    }
+
+    public function makeOrderToYanakSoft(array $data)
+    {
+        $yanakSoftApiSettings = YanakSoftApiSetting::first();
+        if (is_null($yanakSoftApiSettings)) {
+            return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+        }
+
+        $apiCall = $this->connection->callShowStocksInCart($yanakSoftApiSettings->bearer_token, $data);
+        $result  = json_decode($apiCall, true);
+
+        //TODO: Trqbva da se dovarshi
+        return $result;
+    }
 }

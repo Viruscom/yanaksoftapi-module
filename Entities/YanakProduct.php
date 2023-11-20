@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanakSoftApi\Entities;
+    namespace Modules\YanaksoftApi\Entities;
 
     use App\Helpers\CacheKeysHelper;
     use Illuminate\Database\Eloquent\Model;

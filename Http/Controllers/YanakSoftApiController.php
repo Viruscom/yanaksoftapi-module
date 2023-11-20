@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanakSoftApi\Http\Controllers;
+    namespace Modules\YanaksoftApi\Http\Controllers;
 
     use Illuminate\Routing\Controller;
     use Modules\YanakSoftApi\Services\ApiService;

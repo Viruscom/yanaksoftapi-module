@@ -5,18 +5,11 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="{{ route('admin.pages.index') }}" class="text-black">@lang('admin.pages.index')</a>
+            <a href="{{ route('admin.shop.settings.main.index') }}" class="text-black">{{ __('shop::admin.main_settings.index') }}</a>
+            <i class="fa fa-angle-right"></i>
         </li>
-        @if(url()->current() === route('admin.pages.create'))
-            <li>
-                <i class="fa fa-angle-right"></i>
-                <a href="{{ route('admin.pages.create') }}" class="text-purple">@lang('admin.pages.create')</a>
-            </li>
-        @elseif(Request::segment(3) !== null && url()->current() === route('admin.pages.edit', ['id' => Request::segment(3)]))
-            <li>
-                <i class="fa fa-angle-right"></i>
-                <a href="{{ route('admin.pages.edit', ['id' => Request::segment(3)]) }}" class="text-purple">@lang('admin.pages.edit')</a>
-            </li>
-        @endif
+        <li>
+            <a href="{{ route('admin.shop.settings.internal-integrations.yanak.index') }}" class="text-purple">{{ __('shop::admin.yanak_soft_api.settings') }}</a>
+        </li>
     </ul>
 </div>

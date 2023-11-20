@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanaksoftApi\Services;
+    namespace Modules\YanakSoftApi\Services;
 
     use Carbon\Carbon;
     use Modules\YanakSoftApi\Entities\YanakSoftApiSetting;

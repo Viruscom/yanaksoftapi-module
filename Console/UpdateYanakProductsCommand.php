@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanaksoftApi\Console;
+    namespace Modules\YanakSoftApi\Console;
 
     use Illuminate\Console\Command;
 

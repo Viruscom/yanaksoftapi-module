@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanaksoftApi\Models;
+    namespace Modules\YanakSoftApi\Models;
 
     class YanakSoftApi
     {

@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanaksoftApi\Database\Seeders;
+    namespace Modules\YanakSoftApi\Database\Seeders;
 
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Seeder;

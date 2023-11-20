@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanaksoftApi\Services;
+    namespace Modules\YanakSoftApi\Services;
 
     use GuzzleHttp\Client;
 

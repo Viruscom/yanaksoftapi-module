@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanakSoftApi\Providers;
+    namespace Modules\Yanaksoftapi\Providers;
 
     use Config;
     use Illuminate\Database\Eloquent\Factory;

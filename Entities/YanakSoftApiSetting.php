@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\YanakSoftApi\Entities;
+    namespace Modules\Yanaksoftapi\Entities;
 
     use Illuminate\Database\Eloquent\Model;
 

@@ -5,6 +5,7 @@
     use Config;
     use Illuminate\Database\Eloquent\Factory;
     use Illuminate\Support\ServiceProvider;
+    use Modules\Yanaksoftapi\Console\UpdateYanakProductsCommand;
 
     class YanakSoftApiServiceProvider extends ServiceProvider
     {
@@ -25,6 +26,7 @@
          */
         public function boot()
         {
+            $this->commands([UpdateYanakProductsCommand::class]);
             $this->registerTranslations();
             $this->registerConfig();
             $this->registerViews();

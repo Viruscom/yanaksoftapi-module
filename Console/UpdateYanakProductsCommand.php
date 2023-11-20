@@ -11,7 +11,7 @@
 
         public function handle()
         {
-            app('Modules\YanakSoftApi\Http\Controllers\YanakSoftProductController')->updateProducts();
+            app('Modules\Yanaksoftapi\Http\Controllers\YanakSoftProductController')->updateProducts();
             $this->info('Yanak products updated successfully.');
         }
     }

@@ -17,6 +17,7 @@
         public function getToken()
         {
             $yanakSoftApiSettings = YanakSoftApiSetting::first();
+
             if (is_null($yanakSoftApiSettings)) {
                 return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
             }
@@ -24,7 +25,7 @@
             $lastTokenUpdate = Carbon::parse($yanakSoftApiSettings->bearer_token_last_update)->addHour(11)->timestamp;
 
             if ($now > $lastTokenUpdate || is_null($yanakSoftApiSettings->bearer_token)) {
-                $apiCall = $this->connection->callGetToken();
+                $apiCall = $this->connection->callGetToken($yanakSoftApiSettings);
                 $result  = json_decode($apiCall, true);
                 if ($result['success'] === true) {
                     $yanakSoftApiSettings->updateSettings($result['token'], $now);

@@ -41,15 +41,15 @@
         {
             return new Client();
         }
-        public function callGetToken(): string
+        public function callGetToken($yanakSoftApiSettings): string
         {
             $attributes = [
                 'headers' => [
                     'Content-Type' => 'application/json',
                 ],
                 'json'    => [
-                    'username' => 'admin',
-                    'email'    => 'test1235@yanaksoft.com',
+                    'username' => $yanakSoftApiSettings->username,
+                    'email'    => $yanakSoftApiSettings->client_email,
                 ],
                 'verify'  => false
             ];

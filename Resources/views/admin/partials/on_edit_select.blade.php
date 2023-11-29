@@ -8,7 +8,7 @@
                 <option value="">@lang('admin.common.please_select')</option>
             @endif
             @foreach($models as $pmodel)
-                <option value="{{ $pmodel->stk_idnumb }}" {{($pmodel->stk_idnumb === old($fieldName) || $pmodel->stk_idnumb === $modelId) ? 'selected': ''}}>  {{ $pmodel->stk_name}}</option>
+                <option value="{{ $pmodel->stk_idnumb }}" {{($pmodel->stk_idnumb === old($fieldName) || $pmodel->stk_idnumb === $modelId) ? 'selected': ''}}>  {{ $pmodel->stk_name}} - {{ $pmodel->code}}</option>
             @endforeach
         </select>
     </div>

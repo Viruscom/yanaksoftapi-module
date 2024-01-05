@@ -13,6 +13,7 @@
 
     use Illuminate\Support\Facades\Route;
     use Modules\YanakSoftApi\Http\Controllers\YanakSettingsController;
+    use Modules\YanakSoftApi\Http\Controllers\YanakSoftApiController;
     use Modules\YanakSoftApi\Http\Controllers\YanakSoftProductController;
 
     Route::prefix('system/apis/yanaksoftapi')->group(function () {
@@ -25,7 +26,7 @@
         Route::get('/deleteStockFromCart', 'YanakSoftApiController@deleteStockFromCart');
         Route::get('/showStocksInCart', 'YanakSoftApiController@showStocksInCart');
         Route::get('/showStocksInCart', 'YanakSoftApiController@showStocksInCart');
-        Route::get('/makeOrderToYanakSoft', 'YanakSoftApiController@makeOrderToYanakSoft');
+        Route::post('/{id}/make-order', [YanakSoftApiController::class, 'postOrder'])->name('admin.shop.yanak.post-order');
 
         /* Products */
         Route::group(['prefix' => 'products'], static function () {

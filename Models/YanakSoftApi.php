@@ -1,8 +1,8 @@
 <?php
 
-    namespace Modules\Yanaksoftapi\Models;
+namespace Modules\YanakSoftApi\Models;
 
-    class YanakSoftApi
-    {
+class YanakSoftApi
+{
 
-    }
+}

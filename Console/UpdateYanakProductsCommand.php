@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\Yanaksoftapi\Console;
+    namespace Modules\YanakSoftApi\Console;
 
     use Illuminate\Console\Command;
 
@@ -11,7 +11,7 @@
 
         public function handle()
         {
-            app('Modules\Yanaksoftapi\Http\Controllers\YanakSoftProductController')->updateProducts();
+            app('Modules\YanakSoftApi\Http\Controllers\YanakSoftProductController')->updateProducts();
             $this->info('Yanak products updated successfully.');
         }
     }

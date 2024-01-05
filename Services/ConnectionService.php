@@ -1,6 +1,6 @@
 <?php
 
-    namespace Modules\Yanaksoftapi\Services;
+    namespace Modules\YanakSoftApi\Services;
 
     use GuzzleHttp\Client;
 
@@ -10,6 +10,7 @@
         public static int $ERROR_CODE_GET_ALL_STOCKS     = 20;
         public static int $ERROR_CODE_GET_ALL_CATEGORIES = 30;
         public static int $ERROR_CODE_GET_ALL_CUSTOMERS  = 40;
+        public static int $ERROR_CODE_INVALID_RESPONSE   = 99;
         protected string  $bearerToken;
         protected string  $MAIN_URL                      = "https://api.eyanak.com:5555/";
         protected string  $getTokenApiUrl                = "e-shop/api/login";
@@ -20,6 +21,7 @@
         protected string  $editStockFromCartApiUrl       = "e-shop/api/cart";
         protected string  $deleteStockFromCartApiUrl     = "e-shop/api/cart";
         protected string  $showStocksInCartApiUrl        = "e-shop/api/cart";
+        protected string  $createOrderApiUrl             = "e-shop/api/order";
         public function callGetAllStocks($token): string
         {
             $attributes = [
@@ -90,13 +92,14 @@
             return $response->getBody()->getContents();
         }
 
-        public function callAddStockToCart($data): string
+        public function callAddStockToCart($token, $data): string
         {
             $attributes = [
                 'headers' => [
-                    'Content-Type' => 'application/json',
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $token
                 ],
-                'json'    => $data,
+                'body'    => json_encode($data),
                 'verify'  => false
             ];
 
@@ -112,12 +115,11 @@
                     'Content-Type'  => 'application/json',
                     'Authorization' => 'Bearer ' . $token
                 ],
-                'json'    => $data,
+                'body'    => json_encode($data),
                 'verify'  => false
             ];
 
             $response = $this->client()->get($this->MAIN_URL . $this->showStocksInCartApiUrl, $attributes);
-
             return $response->getBody()->getContents();
         }
 
@@ -128,11 +130,11 @@
                     'Content-Type'  => 'application/json',
                     'Authorization' => 'Bearer ' . $token
                 ],
-                'json'    => $data,
+                'body'    => $data,
                 'verify'  => false
             ];
 
-            $response = $this->client()->post($this->MAIN_URL . $this->showStocksInCartApiUrl, $attributes);
+            $response = $this->client()->post($this->MAIN_URL . $this->createOrderApiUrl, $attributes);
 
             return $response->getBody()->getContents();
         }

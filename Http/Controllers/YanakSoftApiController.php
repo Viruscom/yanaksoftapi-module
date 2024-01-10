@@ -3,8 +3,8 @@
     namespace Modules\YanakSoftApi\Http\Controllers;
 
     use App\Helpers\WebsiteHelper;
+    use Auth;
     use Carbon\Carbon;
-    use Illuminate\Http\Request;
     use Illuminate\Routing\Controller;
     use Illuminate\Support\Str;
     use Modules\Shop\Entities\Orders\Order;
@@ -38,7 +38,7 @@
                 }
 
                 foreach ($orderProduct->additiveExcepts as $additive) {
-                    $text = 'Без: ' . $additive->productAdditive->title;
+                    $text        = 'Без: ' . $additive->productAdditive->title;
                     $additions[] = ['comment_type' => 8, 'text' => $text, 'id' => 0, 'quantity' => 0, 'price' => 0];
                 }
 
@@ -82,9 +82,10 @@
                     }
                 }
 
-                if ($cartSame && $service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {
+                // if ($cartSame && $service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {  $cartSame deleted on 10.01.2024 according client requirements!!!
+                if ($service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {
                     $order->update(['sent_to_yanak_at' => Carbon::now()]);
-                    $order->history()->create(['activity_name' => 'Изпращане на поръчката към Янак на '. Carbon::parse($order->sent_to_yanak_at)->format('d.m.Y H:i:s').' от '. \Auth::user()->name]);
+                    $order->history()->create(['activity_name' => 'Изпращане на поръчката към Янак на ' . Carbon::parse($order->sent_to_yanak_at)->format('d.m.Y H:i:s') . ' от ' . Auth::user()->name]);
 
                     return redirect()->route('admin.shop.orders.edit', ['id' => $order->id])->with('success-message', 'Успешно изпращане на поръчката към Янак!');
                 }
@@ -92,18 +93,17 @@
                 return redirect()->route('admin.shop.orders.edit', ['id' => $order->id])->withErrors(['Внимание! Поръчката не е изпратена. Моля, опитайте отново по-късно.']);
             }
         }
+        private function generateArrayKey($partOne, $partTwo)
+        {
+            $partTwo = number_format($partTwo, 2, '.', '');
 
+            return $partOne . "_" . (string)$partTwo;
+        }
         private function compareProductsQuantities($quantityOne, $quantityTwo)
         {
             $quantityOne = number_format($quantityOne, 2, '.', '');
             $quantityTwo = number_format($quantityTwo, 2, '.', '');
 
             return $quantityOne != $quantityTwo;
-        }
-        private function generateArrayKey($partOne, $partTwo)
-        {
-            $partTwo = number_format($partTwo, 2, '.', '');
-
-            return $partOne . "_" . (string)$partTwo;
         }
     }

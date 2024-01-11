@@ -42,29 +42,19 @@
                     $additions[] = ['comment_type' => 8, 'text' => $text, 'id' => 0, 'quantity' => 0, 'price' => 0];
                 }
 
+                foreach ($orderProduct->productCollection as $productCollection) {
+                    $additions[] = ['comment_type' => 1, 'id' => $productCollection->product->stk_idnumb, 'quantity' => $productCollection->quantity, 'price' => $productCollection->price];
+                }
+
                 $addedProduct = $service->sendItemToCart($sessionID, $orderProduct->product->stk_idnumb, $orderProduct->product_quantity, $additions, $orderProduct->vat_applied_discounted_price);
                 if (is_null($addedProduct)) {
-                    return '1';
+                    return redirect()->route('admin.shop.orders.edit', ['id' => $order->id])->withErrors(['Внимание! Поръчката не е изпратена. Моля, проверете дали всички продукти и добавки са асоциирани към Янак и опитайте отново по-късно.']);
                 }
                 $akey = $this->generateArrayKey($orderProduct->product->stk_idnumb, $orderProduct->vat_applied_discounted_price);
                 if (array_key_exists($akey, $addedProducts)) {
                     $addedProducts[$akey]['quantity'] += $addedProduct['quantity'];
                 } else {
                     $addedProducts[$akey] = $addedProduct;
-                }
-
-                foreach ($orderProduct->productCollection as $productCollection) {
-                    $addedProduct = $service->sendItemToCart($sessionID, $productCollection->product->stk_idnumb, $productCollection->quantity, [], $productCollection->price);
-                    if (is_null($addedProduct)) {
-                        return '2';
-                    }
-
-                    $akey = $this->generateArrayKey($productCollection->product->stk_idnumb, $productCollection->price);
-                    if (array_key_exists($akey, $addedProducts)) {
-                        $addedProducts[$akey]['quantity'] += $addedProduct['quantity'];
-                    } else {
-                        $addedProducts[$akey] = $addedProduct;
-                    }
                 }
             }
             $cart = json_decode($service->showStocksInCart(["sessionID" => $sessionID, "customerID" => "0"]));
@@ -82,7 +72,6 @@
                     }
                 }
 
-                // if ($cartSame && $service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {  $cartSame deleted on 10.01.2024 according client requirements!!!
                 if ($service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {
                     $order->update(['sent_to_yanak_at' => Carbon::now()]);
                     $order->history()->create(['activity_name' => 'Изпращане на поръчката към Янак на ' . Carbon::parse($order->sent_to_yanak_at)->format('d.m.Y H:i:s') . ' от ' . Auth::user()->name]);

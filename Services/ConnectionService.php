@@ -22,6 +22,7 @@
         protected string  $deleteStockFromCartApiUrl     = "e-shop/api/cart";
         protected string  $showStocksInCartApiUrl        = "e-shop/api/cart";
         protected string  $createOrderApiUrl             = "e-shop/api/order";
+        protected string  $addCustomStockToCartApiUrl    = "e-shop/api/order/insert-custom-stock";
         public function callGetAllStocks($token): string
         {
             $attributes = [
@@ -108,6 +109,22 @@
             return $response->getBody()->getContents();
         }
 
+        public function callAddCustomStockToCart($token, $data): string
+        {
+            $attributes = [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $token
+                ],
+                'body'    => json_encode($data),
+                'verify'  => false
+            ];
+
+            $response = $this->client()->post($this->MAIN_URL . $this->addCustomStockToCartApiUrl, $attributes);
+
+            return $response->getBody()->getContents();
+        }
+
         public function callShowStocksInCart($token, $data): string
         {
             $attributes = [
@@ -120,6 +137,7 @@
             ];
 
             $response = $this->client()->get($this->MAIN_URL . $this->showStocksInCartApiUrl, $attributes);
+
             return $response->getBody()->getContents();
         }
 

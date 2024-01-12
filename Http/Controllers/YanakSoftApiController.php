@@ -57,12 +57,16 @@
                     $addedProducts[$akey] = $addedProduct;
                 }
             }
-            $cart = json_decode($service->showStocksInCart(["sessionID" => $sessionID, "customerID" => "0"]));
 
+            $deliveryPrice = $order->total_free_delivery ? 0 : (float)Order::FIXED_DELIVERY_PRICE;
+            $service->sendCustomItemToCart($sessionID, $deliveryPrice, 'Доставка', 1);
+
+            $cart = json_decode($service->showStocksInCart(["sessionID" => $sessionID, "customerID" => "0"]));
             if (is_null($cart) || isset($cart->error) || !isset($cart->cart)) {
                 return 'error';
             } else {
-                $cart     = (array)$cart->cart;
+                $cart = (array)$cart->cart;
+
                 $cartSame = true;
                 foreach ($cart['items'] as $cartItem) {
                     $cKey = $this->generateArrayKey($cartItem->stock_id, $cartItem->price);

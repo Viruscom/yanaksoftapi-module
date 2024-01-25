@@ -3,7 +3,6 @@
     namespace Modules\YanakSoftApi\Services;
 
     use Carbon\Carbon;
-    use Exception;
     use Modules\YanakSoftApi\Entities\YanakSoftApiSetting;
 
     class ApiService
@@ -92,6 +91,62 @@
 
             return $result['list_selbuy'];
         }
+
+        public function addStockToCart($data)
+        {
+            $yanakSoftApiSettings = YanakSoftApiSetting::first();
+            if (is_null($yanakSoftApiSettings)) {
+                return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+            }
+
+            $apiCall  = $this->connection->callAddStockToCart($yanakSoftApiSettings->bearer_token, $data);
+            $response = json_decode($apiCall, true);
+            if (is_null($response) || !isset($response['success'])) {
+                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+            }
+
+            if (!$response['success']) {
+                if (isset($response['error']['code'])) {
+                    return json_encode(['error' => $response['error']['code']]);
+                } else {
+                    return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+                }
+            }
+
+            if (!isset($response['item'])) {
+                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+            }
+
+            return json_encode(['success' => $response]);
+        }
+        public function addCustomStockToCart($data)
+        {
+            $yanakSoftApiSettings = YanakSoftApiSetting::first();
+            if (is_null($yanakSoftApiSettings)) {
+                return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
+            }
+
+            $apiCall  = $this->connection->callAddCustomStockToCart($yanakSoftApiSettings->bearer_token, $data);
+            $response = json_decode($apiCall, true);
+            if (is_null($response) || !isset($response['success'])) {
+                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+            }
+
+            if (!$response['success']) {
+                if (isset($response['error']['code'])) {
+                    return json_encode(['error' => $response['error']['code']]);
+                } else {
+                    return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+                }
+            }
+
+//            if (!isset($response['item'])) {
+//                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
+//            }
+
+            return json_encode(['success' => $response]);
+        }
+
         public function showStocksInCart(array $data)
         {
             $yanakSoftApiSettings = YanakSoftApiSetting::first();
@@ -135,6 +190,7 @@
 
             return json_encode(['cart' => $cart]);
         }
+
         public function createOrder($sessionID, $userIp, $warehouseID, $userEmail, $total, $paymentMethod): bool
         {
             $yanakSoftApiSettings = YanakSoftApiSetting::first();
@@ -166,10 +222,11 @@
                 }
 
                 return true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return false;
             }
         }
+
         public function sendItemToCart($sessionId, $stockId, $quantity, $additions, $price): ?array
         {
             $data = [
@@ -194,33 +251,7 @@
 
             return ['stock_id' => $data['stockID'], 'quantity' => $data['quantity'], 'price' => $data['price']];
         }
-        public function addStockToCart($data)
-        {
-            $yanakSoftApiSettings = YanakSoftApiSetting::first();
-            if (is_null($yanakSoftApiSettings)) {
-                return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
-            }
 
-            $apiCall  = $this->connection->callAddStockToCart($yanakSoftApiSettings->bearer_token, $data);
-            $response = json_decode($apiCall, true);
-            if (is_null($response) || !isset($response['success'])) {
-                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-            }
-
-            if (!$response['success']) {
-                if (isset($response['error']['code'])) {
-                    return json_encode(['error' => $response['error']['code']]);
-                } else {
-                    return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-                }
-            }
-
-            if (!isset($response['item'])) {
-                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-            }
-
-            return json_encode(['success' => $response]);
-        }
         public function sendCustomItemToCart($sessionId, $value, $information, $quantity): ?array
         {
             $data = [
@@ -237,32 +268,5 @@
             }
 
             return [];
-        }
-        public function addCustomStockToCart($data)
-        {
-            $yanakSoftApiSettings = YanakSoftApiSetting::first();
-            if (is_null($yanakSoftApiSettings)) {
-                return json_encode(['error' => ConnectionService::$ERROR_CODE_MISSING_SETTINGS]);
-            }
-
-            $apiCall  = $this->connection->callAddCustomStockToCart($yanakSoftApiSettings->bearer_token, $data);
-            $response = json_decode($apiCall, true);
-            if (is_null($response) || !isset($response['success'])) {
-                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-            }
-
-            if (!$response['success']) {
-                if (isset($response['error']['code'])) {
-                    return json_encode(['error' => $response['error']['code']]);
-                } else {
-                    return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-                }
-            }
-
-            //            if (!isset($response['item'])) {
-            //                return json_encode(['error' => ConnectionService::$ERROR_CODE_INVALID_RESPONSE]);
-            //            }
-
-            return json_encode(['success' => $response]);
         }
     }

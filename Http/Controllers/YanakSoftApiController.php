@@ -3,8 +3,8 @@
     namespace Modules\YanakSoftApi\Http\Controllers;
 
     use App\Helpers\WebsiteHelper;
-    use Auth;
     use Carbon\Carbon;
+    use Illuminate\Http\Request;
     use Illuminate\Routing\Controller;
     use Illuminate\Support\Str;
     use Modules\Shop\Entities\Orders\Order;
@@ -78,7 +78,7 @@
 
                 if ($service->createOrder($sessionID, $userIp, $warehouseId, $userEmail, $total, $paymentMethod)) {
                     $order->update(['sent_to_yanak_at' => Carbon::now()]);
-                    $order->history()->create(['activity_name' => 'Изпращане на поръчката към Янак на ' . Carbon::parse($order->sent_to_yanak_at)->format('d.m.Y H:i:s') . ' от ' . Auth::user()->name]);
+                    $order->history()->create(['activity_name' => 'Изпращане на поръчката към Янак на ' . Carbon::parse($order->sent_to_yanak_at)->format('d.m.Y H:i:s') . ' от ' . \Auth::user()->name]);
 
                     return redirect()->route('admin.shop.orders.edit', ['id' => $order->id])->with('success-message', 'Успешно изпращане на поръчката към Янак!');
                 }
@@ -86,17 +86,18 @@
                 return redirect()->route('admin.shop.orders.edit', ['id' => $order->id])->withErrors(['Внимание! Поръчката не е изпратена. Моля, опитайте отново по-късно.']);
             }
         }
-        private function generateArrayKey($partOne, $partTwo)
-        {
-            $partTwo = number_format($partTwo, 2, '.', '');
 
-            return $partOne . "_" . (string)$partTwo;
-        }
         private function compareProductsQuantities($quantityOne, $quantityTwo)
         {
             $quantityOne = number_format($quantityOne, 2, '.', '');
             $quantityTwo = number_format($quantityTwo, 2, '.', '');
 
             return $quantityOne != $quantityTwo;
+        }
+        private function generateArrayKey($partOne, $partTwo)
+        {
+            $partTwo = number_format($partTwo, 2, '.', '');
+
+            return $partOne . "_" . (string)$partTwo;
         }
     }

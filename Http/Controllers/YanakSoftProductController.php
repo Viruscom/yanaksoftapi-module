@@ -29,6 +29,8 @@
             YanakProduct::whereNotIn('stk_idnumb', $allStocksIds)->delete();
 
             YanakProduct::updateCache();
+
+            return redirect()->back()->with(['success-message' => 'Успешно обновяване!']);
         }
 
         private function transformStockData($stock)
